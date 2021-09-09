@@ -30,11 +30,11 @@ class Dekan
 {
 public:
 	void initRate(Student &student)
-	{
+{
 		cout << "Enter rating of student: ";
 		cin>>student.rate;
 		cout << endl;
-	}
+}
 };
 
 int Student:: id=0;
