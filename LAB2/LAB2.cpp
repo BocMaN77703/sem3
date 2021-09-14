@@ -2,6 +2,8 @@
 #include <string>
 
 using namespace std;
+int inputRate();
+char* rightRegister(char*);
 
 class Student
 {
@@ -25,8 +27,40 @@ public:
 	void Init()
 	{
 		cout << "Enter name and surname of student: ";
+		char str[100];
 		rewind(stdin);
-		getline(cin,name);
+		cin.get(str, 100);
+		int spaceCounter = 0, defisCounter = 0;
+		for (int i = 0; i < strlen(str); i++)
+		{
+			if ((str[i] < 'A' || str[i]>'z') && (str[i] != '\0' && str[i] != '\n' && str[i] != ' ' && str[i] != '-'))
+			{
+				rewind(stdin);
+				cout << "Enter name and surname of student: ";
+				cin.get(str, 100);
+				i = 0;
+				spaceCounter = 0, defisCounter = 0;
+			}
+			else if (str[i] > 'Z' && str[i] < 'a' && (str[i] != '\0' && str[i] != '\n' && str[i] != ' ' && str[i] != '-'))
+			{
+				rewind(stdin);
+				cout << "Enter name and surname of student: ";
+				cin.get(str, 100);
+				i = 0;
+				spaceCounter = 0, defisCounter = 0;
+			}
+			else if (str[i] == ' ')	spaceCounter++;
+			else if (str[i] == '-') defisCounter++;
+			if (spaceCounter > 1 || defisCounter > 1)
+			{
+				rewind(stdin);
+				cout << "Enter name and surname of student: ";
+				cin.get(str, 100);
+				i = 0;
+				spaceCounter = 0, defisCounter = 0;
+			}
+		}
+		name = rightRegister(str);
 	}
 	friend class Dekan;
 	int Change(Student& student, int num)
@@ -46,10 +80,9 @@ class Dekan
 public:
 	void initRate(Student& student)
 	{
-		cout << "Enter rating of student: ";
-		cin >> student.rate;
+		student.rate = inputRate();
 		cout << endl;
-}
+	}
 };
 
 int Student:: id=0;
@@ -154,6 +187,42 @@ Student* groupMenu(Student *groupOfStudents, Dekan dekan)
 	} while (1);
 }
 
+int inputRate()
+{
+	while (1) 
+	{
+		cout << "Enter rating of student (from 1 to 10): ";
+		int num;
+		cin >> num;
+		cin.ignore(32767, '\n');
+		if (cin.fail() || num<0 || num>10) 
+		{
+			cin.clear(); 
+			cin.ignore(32767, '\n');
+		}
+		else 
+			return num;
+	}
+}
+
+char* rightRegister(char* str)
+{
+	if ((str[0] >= 'a') && (str[0] <= 'z'))
+		str[0] -= 32;
+	for (int i = 1; i < 20; i++)
+	{
+		if ((str[i] >= 'A') && (str[i] <= 'Z'))
+			str[i] += 32;
+	}
+	for (int i = 1; i < 20; i++)
+	{
+		if ((str[i] >= 'a') && (str[i] <= 'z') &&
+			(((str[i - 1]) == '-') || ((str[i - 1]) == ' ')))
+			str[i] -= 32;
+	}
+	return str;
+}
+
 int main()
 {
 	Dekan dekan;
@@ -179,4 +248,3 @@ int main()
 		}
 	}
 }
-//проверки
