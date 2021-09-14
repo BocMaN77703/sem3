@@ -49,7 +49,7 @@ public:
 		cout << "Enter rating of student: ";
 		cin >> student.rate;
 		cout << endl;
-	}
+}
 };
 
 int Student:: id=0;
