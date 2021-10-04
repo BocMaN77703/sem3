@@ -15,6 +15,7 @@ public:
 	}
 	Float operator =(const Float);
 	Float operator +(const Float);
+	Float operator -(const Float);
 	Float operator ++();
 	Float operator ++(int);
 	bool operator <(const Float);
@@ -38,6 +39,13 @@ Float Float::operator +(const Float a)
 {
 	Float temp;
 	temp = num+a.num;
+	return temp;
+}
+
+Float Float::operator -(const Float a)
+{
+	Float temp;
+	temp = num - a.num;
 	return temp;
 }
 
@@ -105,8 +113,7 @@ bool operator==(double value, Float& a)
 int main()
 {
 	Float a(5.3), b(9.7), c;
-	cout << a + b << ++b << --a;
-	c = a - 0.3;
-	if(a<b)	cout << c;
+	c = --a - b--;
+	cout << a << b << c;
 	return 0;
 }
