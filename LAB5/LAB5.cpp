@@ -46,18 +46,18 @@ public:
 	}
 };
 
-class Restriction : public Year
+class Resolution : public Year
 {
 protected:
-	int restriction;
+	int resolution;
 public:
-	Restriction(int initRest, int newYear, string newName): restriction(initRest), Year(newYear,newName)	{}
-	~Restriction(){}
+	Resolution(int initRest, int newYear, string newName): resolution(initRest), Year(newYear,newName)	{}
+	~Resolution(){}
 	void print()
 	{
 		cout << "Name: " << name << endl;
 		cout << "Year: " << year << endl;
-		cout << "Restriction: " << restriction <<"p"<< endl;
+		cout << "Restriction: " << resolution <<"p"<< endl;
 	}
 };
 
@@ -76,13 +76,13 @@ public:
 	}
 };
 
-class ScreenType : public Diagonal, public Restriction
+class ScreenType : public Diagonal, public Resolution
 {
 protected:
 	string screenType;
 public:
 	ScreenType(string newType, int newRest, int newDiag, int newPrice, int newYear, string newName): screenType(newType), Television(newName),
-		Diagonal(newDiag, newPrice, newName), Restriction(newRest, newYear, newName)
+		Diagonal(newDiag, newPrice, newName), Resolution(newRest, newYear, newName)
 	{}
 	~ScreenType(){}
 	void print()
@@ -90,7 +90,7 @@ public:
 		cout << "Name: " << name << endl;
 		cout << "Price: " << price << "$" << endl;
 		cout << "Year: " << year << endl;
-		cout << "Restriction: " << restriction << "p" << endl;
+		cout << "Restriction: " << resolution << "p" << endl;
 		cout << "Diagonal: " << diagonal << " inches" << endl;
 		cout << "Screen type: " << screenType << endl;
 	}
