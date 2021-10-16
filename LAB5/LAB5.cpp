@@ -94,11 +94,53 @@ public:
 		cout << "Diagonal: " << diagonal << " inches" << endl;
 		cout << "Screen type: " << screenType << endl;
 	}
+	void edit()
+	{
+		cout << "Enter name: ";
+		string newName;
+		rewind(stdin);
+		getline(cin, newName);
+		name = newName;
+		cout << "Enter price: ";
+		int edit;
+		cin >> edit;
+		price = edit;
+		cout << "Enter year: ";
+		cin >> edit;
+		year = edit;
+	}
 };
+
+int menu()
+{
+	cout << "Choose:\n1)Show\n2)Edit\n3)Exit\n";
+	int n;
+	cin >> n;
+	system("cls");
+	return n;
+}
 
 int main()
 {
 	ScreenType object("IPS", 1440, 45, 1150, 2021, "LG");
-	object.print();
-	return 0;
+	//object.print();
+	while (1)
+	{
+		switch (menu())
+		{
+		case 1:
+			object.print();
+			break;
+		case 2:
+			object.edit();
+			break;
+		case 3:
+			/*((Television)object).print();
+			((Price)object).print();
+			((Year)object).print();*/
+			return 0;
+		}
+	}
 }
+//в первые 3 все с клавы
+//редактирование
