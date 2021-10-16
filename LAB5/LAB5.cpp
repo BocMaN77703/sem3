@@ -108,6 +108,7 @@ public:
 		cout << "Enter year: ";
 		cin >> edit;
 		year = edit;
+		system("cls");
 	}
 };
 
