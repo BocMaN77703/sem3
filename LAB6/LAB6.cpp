@@ -15,14 +15,8 @@ public:
 	}
 	Screen(int newLen, int newWidth):length(newLen), width(newWidth)	{}
 	virtual ~Screen() { }
-	virtual void print()
-	{
-		cout << "Screen: " << length << "x" << width << endl;
-	}
-	virtual void pixels()
-	{
-		cout << "Number of pixels: " << length * width << " pixels" << endl;
-	}
+	virtual void print()= 0;
+	virtual void pixels() = 0;
 };
 
 class Matrix :public Screen
@@ -32,7 +26,7 @@ protected:
 public:
 	Matrix(int newLen, int newWidth, string newType):Screen(newLen, newWidth), type(newType){}
 	~Matrix(){ }
-	void print() override
+	void print() 
 	{
 		cout << "Screen: " << length << "x" << width << endl;
 		cout << "Matrix type: " << type << endl;
@@ -51,7 +45,7 @@ protected:
 public:
 	Properties(int newLen, int newWidth, int newPrice, int newYear):Screen(newLen, newWidth), price(newPrice), year(newYear){}
 	~Properties(){ }
-	void print() override
+	void print()
 	{
 		cout << "Screen: " << length << "x" << width << endl;
 		cout << "Price: " << price << "$" << endl;

@@ -136,9 +136,9 @@ int main()
 			object.edit();
 			break;
 		case 3:
-			/*((Television)object).print();
+			((Television)object).print();
 			((Price)object).print();
-			((Year)object).print();*/
+			((Year)object).print();
 			return 0;
 		}
 	}

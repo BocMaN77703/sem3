@@ -112,8 +112,7 @@ bool operator==(double value, Float& a)
 
 int main()
 {
-	Float a(5.3), b(9.7), c;
-	c = --a - b--;
-	cout << a << b << c;
+	Float a(6.7), b(3.3), c;
+	cout << a << b << a - b << a + b;
 	return 0;
 }
