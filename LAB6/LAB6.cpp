@@ -1,4 +1,5 @@
 ﻿#include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -13,10 +14,12 @@ public:
 		length = 0;
 		width = 0;
 	}
-	Screen(int newLen, int newWidth):length(newLen), width(newWidth)	{}
+	Screen(int newLen, int newWidth):length(newLen), width(newWidth){}
 	virtual ~Screen() { }
 	virtual void print()= 0;
 	virtual void pixels() = 0;
+	virtual void initResolution() = 0;
+	virtual void search(int, int, string) = 0;
 };
 
 class Matrix :public Screen
@@ -34,6 +37,30 @@ public:
 	void pixels()
 	{
 		cout << "Number of pixels: " << length * width << " pixels" << endl;
+	}
+	void initResolution()
+	{
+		cout << "Enter length: ";
+		cin >> length;
+		cout << "Enter width: ";
+		cin >> width;
+	}
+	void search(int flag, int search = 0, string searchName = "NULL")
+	{
+		switch (flag)
+		{
+		case 1:
+			if (search == length)	print();
+			break;
+		case 2:
+			if (search == width)	print();
+			break;
+		case 6:
+			if (searchName == type)	print();
+			break;
+		default:
+			return;
+		}
 	}
 };
 
@@ -55,6 +82,33 @@ public:
 	{
 		cout << "Number of pixels: " << length * width << " pixels" << endl;
 	}
+	void initResolution()
+	{
+		cout << "Enter length: ";
+		cin >> length;
+		cout << "Enter width: ";
+		cin >> width;
+	}
+	void search(int flag, int search = 0, string searchName = "NULL")
+	{
+		switch (flag)
+		{
+		case 1:
+			if (search == length)	print();
+			break;
+		case 2:
+			if (search == width)	print();
+			break;
+		case 4:
+			if (search == price)	print();
+			break;
+		case 5:
+			if (search == year)		print();
+			break;
+		default:
+			return;
+		}
+	}
 };
 
 class Model:public Properties
@@ -75,7 +129,105 @@ public:
 	{
 		cout << "Number of pixels: " << length * width << " pixels" << endl;
 	}
+	void initResolution()
+	{
+		cout << "Enter length: ";
+		cin >> length;
+		cout << "Enter width: ";
+		cin >> width;
+	}
+	void search(int flag, int search=0, string searchName="NULL")
+	{
+		switch (flag)
+		{
+		case 1:
+			if (search == length)	print();
+			break;
+		case 2:
+			if (search == width)	print();
+			break;
+		case 4:
+			if (search == price)	print();
+			break;
+		case 5:
+			if (search == year)		print();
+			break;
+		case 3:
+			if (searchName == name)		print();
+			break;
+		default:
+			return;
+		}
+	}
+	//friend void search(int, Screen**);
 };
+
+void search(Screen** arr)
+{
+	while (1)
+	{
+		int choise;
+		cout << "What to search:\n1)Length\n2)Width\n3)Name\n4)Price\n5)Year\n6)Type of matrix\n0)Exit\n";
+		cin >> choise;
+		int search;
+		string searchName;
+		switch (choise)
+		{
+		case 1:
+			cout << "Enter length to search: ";
+			cin >> search;
+			for (int i = 0; i < 3; i++)
+			{
+				arr[i]->search(1, search, searchName);
+			}
+			break;
+		case 2:
+			cout << "Enter width to search: ";
+			cin >> search;
+			for (int i = 0; i < 3; i++)
+			{
+				arr[i]->search(2, search, searchName);
+			}
+			break;
+		case 3:
+			cout << "Enter name to search: ";
+			cin >> searchName;
+			search = 0;
+			for (int i = 0; i < 3; i++)
+			{
+				arr[i]->search(3, search, searchName);
+			}
+			break;
+		case 4:
+			cout << "Enter price to search: ";
+			cin >> search;
+			for (int i = 0; i < 3; i++)
+			{
+				arr[i]->search(4, search, searchName);
+			}
+			break;
+		case 5:
+			cout << "Enter year to search: ";
+			cin >> search;
+			for (int i = 0; i < 3; i++)
+			{
+				arr[i]->search(5, search, searchName);
+			}
+			break;
+		case 6:
+			cout << "Enter type of matrix to search: ";
+			cin >> searchName;
+			search = 0;
+			for (int i = 0; i < 3; i++)
+			{
+				arr[i]->search(6, search, searchName);
+			}
+			break;
+		case 0:
+			return;
+		}
+	}
+}
 
 int main()
 {
@@ -88,11 +240,13 @@ int main()
 	obj[2] = c;
 	for (int i = 0; i < 3; i++)
 	{
+		obj[i]->initResolution();
 		obj[i]->pixels();
 		obj[i]->print();
 		system("pause");
 		system("cls");
 	}
+	search(obj);
 	for (int i = 0; i < 3; i++)
 	{
 		delete[]obj[i];
@@ -100,3 +254,7 @@ int main()
 	delete[] obj;
 	return 0;
 }
+
+
+//разрешение с клавы
+//поиск

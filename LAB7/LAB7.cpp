@@ -25,7 +25,7 @@ T* Sort(T* a, int size)
 
 int main()
 {
-	/*int arr[10];
+	int arr[10];
 	cout << "Enter array:\n";
 	for (int i = 0; i < 10; i++)
 	{
@@ -37,7 +37,7 @@ int main()
 		cout << arr[i]<<" ";
 	}
 	system("pause");
-	system("cls");*/
+	system("cls");
 	cout << "Enter string: ";
 	//char* str = new char[100];
 	char str[100];
