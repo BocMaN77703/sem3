@@ -159,7 +159,6 @@ public:
 			return;
 		}
 	}
-	//friend void search(int, Screen**);
 };
 
 void search(Screen** arr)
@@ -169,6 +168,7 @@ void search(Screen** arr)
 		int choise;
 		cout << "What to search:\n1)Length\n2)Width\n3)Name\n4)Price\n5)Year\n6)Type of matrix\n0)Exit\n";
 		cin >> choise;
+		system("cls");
 		int search;
 		string searchName;
 		switch (choise)
