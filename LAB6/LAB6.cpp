@@ -226,6 +226,7 @@ void search(Screen** arr)
 		case 0:
 			return;
 		}
+		cout << endl;
 	}
 }
 
