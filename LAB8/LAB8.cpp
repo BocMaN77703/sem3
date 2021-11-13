@@ -46,9 +46,9 @@ public:
 			}
 		}
 	}
-	void show()
+	void show(int i)
 	{
-		cout << "Your array is: ";
+		cout << "Your array #"<<i<<" is:\n";
 		for (int i = 0; i < 10; i++)
 		{
 			cout << arr[i]<<" ";
@@ -74,7 +74,7 @@ public:
 				flag = true;
 			}
 		}
-		if (!flag)	cout << x << " not found";
+		if (!flag)	cout << x << " not found\n";
 	}
 	bool compare(const Array arr2)
 	{
@@ -94,6 +94,73 @@ public:
 			arr[i] = arr2.arr[i];
 		}
 	}
+	void plenty()
+	{
+		int tmp[10];
+		int* plenty;
+		int counter = 0;
+		cout << "Enter plenty: ";
+		for (int i = 0; i < 10; i++)
+		{
+			cin >> tmp[i];
+			if (cin.fail() || arr[i] < 0)
+			{
+				system("cls");
+				throw ExceptionClass("Incorrect value!!!Try again...\n");
+			}
+			counter++;
+			cout << "Do you want to continue(y/n): ";
+			if (getchar() == 'n') break;
+		}
+		plenty = (int*)calloc(counter, sizeof(int));
+		for (int i = 0; i < counter; i++)
+		{
+			plenty[i] = tmp[i];
+		}
+		bool flag1=false;
+		int pos1, pos2;
+		for (int i = 0; i < 10-counter; i++)
+		{
+			if (arr[i] == plenty[0])
+			{
+				pos1 = i;
+				for (int j = 0, i; j<counter; i++, j++)
+				{
+					if (arr[i] == plenty[j]) flag1 = true;
+					else
+					{
+						flag1 = false;
+						break;
+					}
+				}
+			}
+		}
+		if (flag1)
+		{
+			while (1)
+			{
+				cout << "Enter number of position on which you want to put your plenty: ";
+				cin >> pos2;
+				if (cin.fail() || pos2 < 0 || pos2>(10 - counter))
+				{
+					cin.clear();
+					cin.ignore(100, '\n');
+					cout << "Incorrect value!\n";
+				}
+			}
+			int temp;
+			for (int i = pos2,j=0; i < counter; i++, j++)
+			{
+				temp = arr[i];
+				arr[i] = plenty[j];
+				plenty[j] = temp;
+			}
+			for (int i = pos1, j=0; i < counter; i++, j++)
+			{
+				arr[i] = plenty[j];
+			}
+		}
+	}
 };
 
 void myTerminate()
@@ -108,9 +175,232 @@ void myUnexpected()
 	throw;
 }
 
+int menu()
+{
+	int choise;
+	while (true)
+	{
+		try
+		{
+			cout << "Choose:\n1)Add\n2)Show\n3)Delete\n4)Search\n5)Compare\n6)Assignment\n0)Exit\n";
+			cin >> choise;
+			if (cin.fail() || choise < 0 || choise>6)
+			{
+				system("cls");
+				throw ExceptionClass("Incorrect value!!!Try again...\n");
+			}
+			break;
+		}
+		catch (ExceptionClass& ex)
+		{
+			cout << ex.what();
+			ex.wrongValue();
+		}
+	}
+	return choise;
+}
+
+Array* add(Array* array, int& size)
+{
+	size++;
+	array = (Array*)realloc(array, sizeof(Array) * size);
+	while (true)
+	{
+		try
+		{
+			array[size-1].init();
+			break;
+		}
+		catch (ExceptionClass& ex)
+		{
+			cout << ex.what();
+			ex.wrongValue();
+		}
+	}
+	return array;
+}
+
+void show(Array* array, int size)
+{
+	system("cls");
+	if (size == 0)
+	{
+		system("cls");
+		throw ExceptionClass("Error! Array is empty...\n");
+	}
+	for (int i = 0; i < size; i++)
+	{
+		array[i].show(i);
+		cout << endl;
+	}
+}
+
+void search(Array* array, int size)
+{
+	system("cls");
+	if (size == 0)
+	{
+		system("cls");
+		throw ExceptionClass("Error! Array is empty...\n");
+	}
+	for (int i = 0; i < size; i++)
+	{
+		cout << "Search int the array #" << i << endl;
+		array[i].search();
+	}
+}
+
+Array* del(Array* array, int& size)
+{
+	system("cls");
+	if (size == 0)
+	{
+		system("cls");
+		throw ExceptionClass("Error! Array is empty...\n");
+	}
+	show(array, size);
+	int choise;
+	while (1)
+	{
+		try
+		{
+			cout << "Enter number of array you want to delete: ";
+			cin >> choise;
+			if (cin.fail() || choise < 0 || choise >= size)
+			{
+				throw ExceptionClass("Incorrect value! Try again!\n");
+				system("cls");
+			}
+			break;
+		}
+		catch (ExceptionClass& ex)
+		{
+			ex.what();
+			ex.wrongValue();
+		}
+	}
+	for (int i = choise; i < size; i++)
+	{
+		array[i] = array[i + 1];
+	}
+	size--;
+	array = (Array*)realloc(array, sizeof(Array) * size);
+	return array;
+}
+
+void compare(Array* array, int size)
+{
+	system("cls");
+	if (size <2)
+	{
+		system("cls");
+		throw ExceptionClass("Error! Not enough elements in the array!\n");
+	}
+	int x1=0, x2=0;
+	while (1)
+	{
+		try
+		{
+			cout << "Enter first number of array you want to compare: ";
+			cin >> x1;
+			if (cin.fail() || x1 < 0 || x1 >= size)
+			{
+				throw ExceptionClass("Error! There is no such array!\n");
+				system("cls");
+			}
+			cout << "Enter second number of array you want to compare: ";
+			cin >> x2;
+			if (cin.fail() || x2 < 0 || x2 >= size)
+			{
+				throw ExceptionClass("Error! There is no such array!\n");
+				system("cls");
+			}
+			break;
+		}
+		catch (ExceptionClass& ex)
+		{
+			ex.what();
+			ex.wrongValue();
+		}
+	}
+	if (array[x1].compare(array[x2]))	cout << "array["<<x1<<"] > array["<<x2<<"]" << endl;
+	else cout << "array[" << x1 << "] < array[" << x2 << "]" << endl;
+}
+
+Array* assignment(Array* array, int size)
+{
+	system("cls");
+	if (size < 2)
+	{
+		system("cls");
+		throw ExceptionClass("Error! Not enough elements in the array!\n");
+	}
+	int x1 = 0, x2 = 0;
+	while (1)
+	{
+		try
+		{
+			cout << "Enter first number of array: ";
+			cin >> x1;
+			if (cin.fail() || x1 < 0 || x1 >= size)
+			{
+				throw ExceptionClass("Error! There is no such array!\n");
+				system("cls");
+			}
+			cout << "Enter second number of array: ";
+			cin >> x2;
+			if (cin.fail() || x2 < 0 || x2 >= size)
+			{
+				throw ExceptionClass("Error! There is no such array!\n");
+				system("cls");
+			}
+			break;
+		}
+		catch (ExceptionClass& ex)
+		{
+			ex.what();
+			ex.wrongValue();
+		}
+	}
+	array[x1].getarr(array[x2]);
+	return array;
+}
+
+void plentychange(Array* array, int size)
+{
+	system("cls");
+	if (size == 0)
+	{
+		system("cls");
+		throw ExceptionClass("Error! Array is empty...\n");
+	}
+	show(array, size);
+	int choise;
+	while (1)
+	{
+		try
+		{
+			cout << "Enter number of array you want to delete: ";
+			cin >> choise;
+			if (cin.fail() || choise < 0 || choise >= size)
+			{
+				throw ExceptionClass("Incorrect value! Try again!\n");
+				system("cls");
+			}
+			break;
+		}
+		catch (ExceptionClass& ex)
+		{
+			ex.what();
+			ex.wrongValue();
+		}
+	}
+	array[choise].plenty();
+}
+
 int main()
 {
-	set_terminate(myTerminate);
+	/*set_terminate(myTerminate);
 	set_unexpected(myUnexpected);
 	int array1[10] = {1,10,12,11,100,0,125,11,9,7};
 	int array2[10] = { 1,2,3,4,5,6,7,8,9 };
@@ -152,6 +442,82 @@ int main()
 	system("cls");
 	if (x.compare(z))	cout << "x > z"<<endl;
 	else cout << "x < z"<<endl;
-	//throw;
-	return 0;
+	throw;*/
+	Array* array=NULL;
+	int size = 0;
+	while (1)
+	{
+		switch (menu())
+		{
+		case 1:
+			array=add(array, size);
+			break;
+		case 2:
+			try
+			{
+				show(array, size);
+			}
+			catch(ExceptionClass& ex)
+			{
+				cout << ex.what();
+			}
+			break;
+		case 3:
+			try
+			{
+				array=del(array, size);
+			}
+			catch (ExceptionClass& ex)
+			{
+				cout << ex.what();
+			}
+			break;
+		case 4:
+			try
+			{
+				search(array, size);
+			}
+			catch (ExceptionClass& ex)
+			{
+				cout << ex.what();
+			}
+			break;
+		case 5:
+			try
+			{
+				compare(array, size);
+			}
+			catch (ExceptionClass& ex)
+			{
+				cout << ex.what();
+			}
+			break;
+		case 6:
+			try
+			{
+				array=assignment(array, size);
+			}
+			catch (ExceptionClass& ex)
+			{
+				cout << ex.what();
+			}
+			break;
+		case 7:
+			try
+			{
+				plentychange(array, size);
+			}
+			catch (ExceptionClass& ex)
+			{
+				cout << ex.what();
+			}
+			break;
+		case 0:
+			free(array);
+			return 0;
+		}
+	}
 }
+//Меню
+//Исключение несуществующих элементов
+//функция пермещения множества
