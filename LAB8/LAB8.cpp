@@ -99,9 +99,9 @@ public:
 		int tmp[10];
 		int* plenty;
 		int counter = 0;
-		cout << "Enter plenty: ";
 		for (int i = 0; i < 10; i++)
 		{
+			cout << "Enter element of plenty: ";
 			cin >> tmp[i];
 			if (cin.fail() || arr[i] < 0)
 			{
@@ -110,6 +110,7 @@ public:
 			}
 			counter++;
 			cout << "Do you want to continue(y/n): ";
+			rewind(stdin);
 			if (getchar() == 'n') break;
 		}
 		plenty = (int*)calloc(counter, sizeof(int));
@@ -118,13 +119,13 @@ public:
 			plenty[i] = tmp[i];
 		}
 		bool flag1=false;
-		int pos1, pos2;
-		for (int i = 0; i < 10-counter; i++)
+		int pos1, pos2, i=0, j=0;
+		for (i = 0; i < 10-counter+1; i++)
 		{
 			if (arr[i] == plenty[0])
 			{
 				pos1 = i;
-				for (int j = 0, i; j<counter; i++, j++)
+				for ( j = 0, i; j<counter; i++, j++)
 				{
 					if (arr[i] == plenty[j]) flag1 = true;
 					else
@@ -141,25 +142,45 @@ public:
 			{
 				cout << "Enter number of position on which you want to put your plenty: ";
 				cin >> pos2;
-				if (cin.fail() || pos2 < 0 || pos2>(10 - counter))
+				if (cin.fail() || pos2 < 0 || pos2>(10 - counter+1))
 				{
 					cin.clear();
 					cin.ignore(100, '\n');
 					cout << "Incorrect value!\n";
 				}
+				break;
 			}
 			int temp;
-			for (int i = pos2,j=0; i < counter; i++, j++)
+			for (i = pos2,j=0; j < counter; i++, j++)
 			{
 				temp = arr[i];
 				arr[i] = plenty[j];
 				plenty[j] = temp;
 			}
-			for (int i = pos1, j=0; i < counter; i++, j++)
+			if (pos2>pos1)
 			{
-				arr[i] = plenty[j];
+				for (i = pos1, j=pos1+counter; j < pos2+1; i++, j++)
+				{
+					arr[i] = arr[j];
+				}
+				for (i=i-1, j=0; j < counter; i++, j++)
+				{
+					arr[i] = plenty[j];
+				}
+			}
+			else if (pos1>pos2)
+			{
+				for (i, j = 0; j < counter; i++, j++)
+				{
+					if (i >= counter + pos1) break;
+					temp = arr[i];
+					arr[i] = plenty[j];
+					plenty[j] = temp;
+					if (j+1 == counter)	j = -1;
+				}
 			}
 		}
+		free(plenty);
 	}
 };
 
@@ -182,9 +203,9 @@ int menu()
 	{
 		try
 		{
-			cout << "Choose:\n1)Add\n2)Show\n3)Delete\n4)Search\n5)Compare\n6)Assignment\n0)Exit\n";
+			cout << "Choose:\n1)Add\n2)Show\n3)Delete\n4)Search\n5)Compare\n6)Assignment\n7)Extra\n0)Exit\n";
 			cin >> choise;
-			if (cin.fail() || choise < 0 || choise>6)
+			if (cin.fail() || choise < 0 || choise>7)
 			{
 				system("cls");
 				throw ExceptionClass("Incorrect value!!!Try again...\n");
@@ -380,7 +401,7 @@ void plentychange(Array* array, int size)
 	{
 		try
 		{
-			cout << "Enter number of array you want to delete: ";
+			cout << "Enter number of array you want to change: ";
 			cin >> choise;
 			if (cin.fail() || choise < 0 || choise >= size)
 			{
