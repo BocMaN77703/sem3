@@ -1,0 +1,4 @@
+Stepan 2 8.3
+Karen 4 3.3
+Ivan 1 7.5
+Olga 3 5.1
