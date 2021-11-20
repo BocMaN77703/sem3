@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -201,9 +202,12 @@ void printTextFile(const char* fileName)
 		{
 		case 1:
 			system("cls");
-			while (getline(in, str))
+			while (in >> temp)
 			{
-				cout << str << endl;
+				//cout << str << endl;
+				cout << "Name: " << temp.name << endl;
+				cout << "Course: " << fixed <<showpos<< temp.course << endl;
+				cout << "Mark: " << fixed << setprecision(1) << temp.mark<<endl<<endl;
 			}
 			in.close();
 			break;
@@ -213,10 +217,12 @@ void printTextFile(const char* fileName)
 			{
 				for (int i = 0; i < counter; i++)
 				{
-					getline(in, str);
+					in >> temp;
 				}
 				counter--;
-				cout << str<<endl;
+				cout << "Name: " << temp.name << endl;
+				cout << "Course: " << fixed << showpos << temp.course << endl;
+				cout << "Mark: " << fixed << setprecision(1) << temp.mark << endl << endl;
 				if (counter == 0) break;
 				in.seekg(0, in.beg);
 			} while (1);
@@ -266,7 +272,9 @@ void printBinFile(const char* fileName)
 			system("cls");
 			while (in.read((char*)&temp, sizeof(Student)))
 			{
-				cout << temp.name << " " << temp.course << " " << temp.mark << endl;
+				cout << "Name: " << temp.name << endl;
+				cout << "Course: " << fixed << showpos << temp.course << endl;
+				cout << "Mark: " << fixed << setprecision(1) << temp.mark << endl << endl;
 			}
 			in.close();
 			break;
@@ -276,7 +284,9 @@ void printBinFile(const char* fileName)
 			{
 				in.seekg((counter - i) * sizeof(Student), in.beg);
 				in.read((char*)&temp, sizeof(Student));
-				cout << temp.name << " " << temp.course << " " << temp.mark << endl;
+				cout << "Name: " << temp.name << endl;
+				cout << "Course: " << fixed << showpos << temp.course << endl;
+				cout << "Mark: " << fixed << setprecision(1) << temp.mark << endl << endl;
 				i++;
 			} while (counter>=i);
 			in.close();
