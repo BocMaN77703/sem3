@@ -105,19 +105,20 @@ public:
     {
         Node* addNode = new Node(newVal);
         addNode->next = head;
-        addNode->prev = 0;
+        addNode->prev = tail;
         head->prev = addNode;
+        tail->next = addNode;
         head = addNode;
         headIterator = iterator(head);
     }
     bool remove_it(iterator key)
     {
         for (Node* dn = head; dn != tail; dn = dn->next)
-            if (dn == key.node)    // найден узел для удаления
+            if (dn == key.node)    
             {
                 dn->prev->next = dn->next;
                 dn->next->prev = dn->prev;
-                delete dn;                           // удаление узla
+                delete dn;                           
                 key.node = 0;
                 return true;
             }
@@ -146,33 +147,27 @@ public:
 
 typedef int tip;
 
-Ring<tip> ring;      // создается пустой список
+Ring<tip> ring;
 
 int main()
 {
     int ret = 0;
     Ring<tip>::iterator ringIterator;
-    // занесение значений   0 1 2 3 4  в список
     for (int j = 0; j < 5; ++j)
-
         ring.add(j);
-    // вывод содержимого списка используя компоненту-функцию
-    // класса Ring
     ring.print();
-    // повторный вывод значения содержимого списка
-    // используя итератор
     for (ringIterator = ring.front(); ringIterator != ring.rear(); ++ringIterator)
         cout << *ringIterator << " ";
     cout << endl;
-    // вывод содержимого списка в обратном порядке
     for (ringIterator = ring.rear(); ringIterator != ring.front(); )
     {
-        --ringIterator;   // декремент итератора
+        --ringIterator; 
         cout << *ringIterator << " ";
     }
     cout << endl;
     ring.remove_it(ring.find(3));
     ring.print();
-    cout << ring.size() << endl;
     return 0;
 }
+
+
