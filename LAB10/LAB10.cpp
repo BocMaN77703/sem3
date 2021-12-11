@@ -2,6 +2,18 @@
 
 using namespace std;
 
+class ExceptionClass : public exception
+{
+public:
+    ExceptionClass(const char* message) :exception(message) {}
+    ~ExceptionClass() {}
+    void wrongValue()
+    {
+        cin.clear();
+        cin.ignore(100, '\n');
+    }
+};
+
 template <class T>
 class Ring
 {
@@ -12,12 +24,22 @@ private:
         T value;
         Node* next;
         Node* prev;
-        Node(T newVal) :value(newVal) { next = 0; prev = 0; }
-        Node() { next = 0; prev = 0; value = 0; }
+        Node(T newVal) :value(newVal) { next =prev= this; }
+        Node() { next = prev = this; value = 0; }
         ~Node() {}
         void print()
         {
             cout << value << " ";
+        }
+        int getValue()
+        {
+            return value;
+        }
+        Node& operator=(const Node&x)
+        {
+            value = x.value;
+            next = x.next;
+            prev = x.prev;
         }
     };
 public:
@@ -66,7 +88,7 @@ public:
 private:
     Node* head;
     Node* tail;
-    Ring& operator=(const Ring&);
+    //Ring& operator=(const Ring&);
     Ring(const Ring&);
     iterator headIterator;
     iterator tailIterator;
@@ -82,8 +104,8 @@ public:
     Ring(T newVal)
     {
         head = tail = new Node;
-        tail->next = 0;
-        tail->prev = 0;
+        tail->next = this;
+        tail->prev = this;
         headIterator = iterator(head);
         tailIterator = iterator(tail);
         add(newVal);
@@ -130,6 +152,104 @@ public:
             if (dn->value == val) return iterator(dn);
         return tailIterator;
     }
+    void search()
+    {
+        int* arr=NULL;
+        int size = 0;
+        while (1)
+        {
+            try
+            {
+                cout << "Enter element of plenty to search: ";
+                size++;
+                arr = (int*)realloc(arr, size * sizeof(int));
+                cin >> arr[size - 1];
+                if (cin.fail() || arr[size - 1] < 0)   throw("Incorrect value!");
+                cout << "To continue press 'y' else press 'n': ";
+                rewind(stdin);
+                if (getchar() != 'y') break;
+            }
+            catch (ExceptionClass& ex)
+            {
+                ex.what();
+                ex.wrongValue();
+            }
+        }
+        
+        int i = 0;
+        bool flag = false;
+        for (Node* dn = head; dn!=tail; dn=dn->next)
+        {
+            if (dn->value == arr[i])
+            {
+                flag = true;
+                for (Node* kn = dn; i<size; kn = kn->next, i++)
+                {
+                    if (kn->value != arr[i]) flag = false;
+                }
+            }
+        }
+        if (flag == true)
+        {
+            cout << "Plenty( ";
+            for (int i = 0; i < size; i++)
+            {
+                cout << arr[i] << " ";
+            }
+            cout << ") is found!"<<endl;
+        }
+        else
+        {
+            cout << "Not found..." << endl;
+        }
+        free(arr);
+    }
+    void dublicate()
+    {
+        int comp;
+        for (int i = 0; i < size(); i++)
+        {
+            for (Node* dn = head; dn != tail; dn = dn->next)
+            {
+                bool flag = false;
+                for (Node* n = dn->next; n != tail && flag == false; n = n->next)
+                {
+                    comp = dn->value;
+                    if (comp == n->value)
+                    {
+                        remove_it(iterator(n));
+                        flag = true;
+                    }
+                }
+            }
+        }
+    }
+    void sort()
+    { 
+        for (int i = 0; i < size(); i++)
+        {
+            for (Node* dn = head; dn != tail; dn = dn->next)
+            {
+                
+                Node* n = dn->next;
+                if (dn->value > n->value)
+                {
+                    if (n->value == 0)     break;
+                    Node* x = n->next;
+                    Node* y = dn->prev;
+                    n->prev = dn->prev;
+                    dn->next = n->next;
+                    dn->prev = n;
+                    n->next = dn;
+                    if (dn == head)    head = n;
+                    if (n == tail)     tail = dn;
+                    x->prev = dn;
+                    y->next = n;
+                }
+            }
+        }
+        print();
+    }
     int size() const
     {
         int count = 0;
@@ -149,25 +269,81 @@ typedef int tip;
 
 Ring<tip> ring;
 
-int main()
+int menu()
 {
-    int ret = 0;
-    Ring<tip>::iterator ringIterator;
-    for (int j = 0; j < 5; ++j)
-        ring.add(j);
-    ring.print();
-    for (ringIterator = ring.front(); ringIterator != ring.rear(); ++ringIterator)
-        cout << *ringIterator << " ";
-    cout << endl;
-    for (ringIterator = ring.rear(); ringIterator != ring.front(); )
+    int choise;
+    while (true)
     {
-        --ringIterator; 
-        cout << *ringIterator << " ";
+        try
+        {
+            cout << "Choose:\n1)Add\n2)Show\n3)Search plenty\n4)Sort\n5)Dublicates\n0)Exit\n";
+            cin >> choise;
+            if (cin.fail() || choise < 0 || choise>5)
+            {
+                system("cls");
+                throw ExceptionClass("Incorrect value!!!Try again...\n");
+            }
+            break;
+        }
+        catch (ExceptionClass& ex)
+        {
+            cout << ex.what();
+            ex.wrongValue();
+        }
     }
-    cout << endl;
-    ring.remove_it(ring.find(3));
-    ring.print();
-    return 0;
+    return choise;
 }
 
+void add(Ring<tip> &ring)
+{
+    int num;
+    while (1)
+    {
+        try
+        {
+            cout << "Enter element to add:";
+            cin >> num;
+            if (cin.fail() || num < 0)   throw("Incorrect value!\n");
+            break;
+        }
+        catch (ExceptionClass& ex)
+        {
+            ex.what();
+            ex.wrongValue();
+        }
+    }
+    ring.add(num);
+}
 
+int main()
+{
+    //Ring<tip>::iterator ringIterator;
+
+    while (1)
+    {
+        switch (menu())
+        {
+        case 1:
+            add(ring);
+            break;
+        case 2:
+            ring.print();
+            break;
+        case 3:
+            ring.search();
+            break;
+        case 4:
+            ring.sort();
+            break;
+        case 5:
+            ring.dublicate();
+            break;
+        case 0:
+            return 0;
+        }
+    }
+}
+//поиск множества
+//сортировка
+//удаление дубликатов
+//меню

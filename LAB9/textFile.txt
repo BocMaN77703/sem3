@@ -1,5 +1,9 @@
-1 1 1
-2 2 2
-3 3 3
-4 4 4
-5 5 5
+Stas 1 9
+Polina 1 8
+Alexei 3 5
+Grigoriy 3 7
+Stepan 4 6
+Alexander 2 2
+Karina 2 1
+Olga 5 1
+Valera 5 6
