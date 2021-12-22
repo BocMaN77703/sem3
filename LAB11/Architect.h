@@ -4,11 +4,15 @@ namespace NAME
 {
 	class Architect
 	{
-		std::string name;
+		
 	public:
+		std::string name;
 		Architect();
 		Architect(std::string);
 		~Architect();
 		void see();
+		void init();
+		std::string getName();
+		void putName(std::string newName);
 	};
 }

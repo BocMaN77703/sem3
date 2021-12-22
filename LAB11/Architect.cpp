@@ -15,3 +15,22 @@ void Architect::see()
 {
 	cout << "Architect Name: "<<name<<endl;
 }
+
+void Architect::init()
+{
+	cout << "Enter name of Architect: ";
+	rewind(stdin);
+	cin >> name;
+}
+
+string Architect::getName()
+{
+	return name;
+}
+
+void Architect::putName(std::string newName)
+{
+	
+	name = newName;
+	
+}
