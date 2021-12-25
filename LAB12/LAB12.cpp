@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <map>
 
 using namespace std;
 
@@ -24,9 +25,9 @@ int menu()
     {
         try
         {
-            cout << "Choose:\n1)Add string to file\n2)Show file\n3)Count element\n0)Exit\n";
+            cout << "Choose:\n1)Add string to file\n2)Show file\n3)Count element\n4)Count chars(a-z)\n0)Exit\n";
             cin >> choise;
-            if (cin.fail() || choise < 0 || choise>3)
+            if (cin.fail() || choise < 0 || choise>4)
             {
                 system("cls");
                 throw ExceptionClass("Incorrect value!!! Try again...\n");
@@ -175,6 +176,66 @@ void count()
     cout << "Result file closed!" << endl;
 }
     
+void countLetters()
+{
+    system("cls");
+    ifstream in("origin.txt", ios::in | ios::out);
+    try
+    {
+        cout << "Opening origin file..." << endl;
+        if (!in)	throw ExceptionClass("Can't open the file!");
+    }
+    catch (ExceptionClass& ex)
+    {
+        ex.what();
+    }
+    cout << "Origin file opened!" << endl;
+    string temp;
+    vector<string> origin;
+    while (getline(in, temp))
+    {
+        origin.push_back(temp);
+    }
+    in.close();
+    cout << "Origin file closed!" << endl;
+    ofstream out("coutchars.txt", ios::in | ios::out);
+    try
+    {
+        cout << "Opening result file...";
+        if (!out)	throw ExceptionClass("Can't open the file!");
+    }
+    catch (ExceptionClass& ex)
+    {
+        ex.what();
+    }
+    cout << "Result file opened!!!" << endl;
+    for (int i = 0; i < origin.size(); i++)
+    {
+        vector<int> result;
+        for (int x = 0; x < 26; x++)
+        {
+            char compare = 'a' + x;
+            int counter = 0;
+            for (int j = 0; j < origin[i].size(); j++)
+            {
+                if (origin[i][j] == compare)   counter++;
+            }
+            result.push_back(counter);
+            //result.insert(pair<char, int>(compare, counter));
+        }
+        char c = 96;
+        out <<endl<< "String: " << origin[i] << endl;
+        for (int z = 0; z < result.size(); z++)
+        {
+            c ++;
+            out << c << " - ";
+            out << result[z] << endl;
+        }
+        out <<endl<< "----------------------------";
+    }
+    out.close();
+    cout << "Result file closed!" << endl;
+}
 
 int main()
 {
@@ -191,8 +252,12 @@ int main()
         case 3:
             count();
             break;
+        case 4:
+            countLetters();
+            break;
         case 0:
             return 0;
         }
     }
 }
+//a-z сколько раз встречается каждый символ
