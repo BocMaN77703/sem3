@@ -1,41 +1,12 @@
 
-String: az
-a - 1
-b - 0
-c - 0
-d - 0
-e - 0
-f - 0
-g - 0
-h - 0
-i - 0
-j - 0
-k - 0
-l - 0
-m - 0
-n - 0
-o - 0
-p - 0
-q - 0
-r - 0
-s - 0
-t - 0
-u - 0
-v - 0
-w - 0
-x - 0
-y - 0
-z - 1
-
-----------------------------
-String: qwert
+String: qwtewreywge
 a - 0
 b - 0
 c - 0
 d - 0
-e - 1
+e - 3
 f - 0
-g - 0
+g - 1
 h - 0
 i - 0
 j - 0
@@ -51,20 +22,49 @@ s - 0
 t - 1
 u - 0
 v - 0
-w - 1
+w - 3
 x - 0
-y - 0
+y - 1
 z - 0
 
 ----------------------------
-String: fdgsxrtsyrtytxtedstrdfc
+String: ygkaywherfyvb
+a - 1
+b - 1
+c - 0
+d - 0
+e - 1
+f - 1
+g - 1
+h - 1
+i - 0
+j - 0
+k - 1
+l - 0
+m - 0
+n - 0
+o - 0
+p - 0
+q - 0
+r - 1
+s - 0
+t - 0
+u - 0
+v - 1
+w - 1
+x - 0
+y - 3
+z - 0
+
+----------------------------
+String: fertwef
 a - 0
 b - 0
-c - 1
-d - 3
-e - 1
+c - 0
+d - 0
+e - 2
 f - 2
-g - 1
+g - 0
 h - 0
 i - 0
 j - 0
@@ -75,14 +75,14 @@ n - 0
 o - 0
 p - 0
 q - 0
-r - 3
-s - 3
-t - 5
+r - 1
+s - 0
+t - 1
 u - 0
 v - 0
-w - 0
-x - 2
-y - 2
+w - 1
+x - 0
+y - 0
 z - 0
 
 ----------------------------

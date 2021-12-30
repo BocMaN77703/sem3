@@ -2,7 +2,6 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <map>
 
 using namespace std;
 
@@ -198,7 +197,7 @@ void countLetters()
     }
     in.close();
     cout << "Origin file closed!" << endl;
-    ofstream out("coutchars.txt", ios::in | ios::out);
+    ofstream out("coutchars.txt", ios::in | ios::out|ios::app);
     try
     {
         cout << "Opening result file...";
